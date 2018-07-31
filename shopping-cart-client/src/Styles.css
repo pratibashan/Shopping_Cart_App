@@ -1,0 +1,28 @@
+body {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.container {
+  width: auto;
+  max-width: 900px;
+  padding: 0 15px;
+}
+
+.container .footer-text {
+  margin: 20px 0;
+}
+
+.badge {
+  background-color: #e4aa48;
+}
+#menu {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+#productsFormPanel,
+#cartPanel {
+  margin: 15px;
+  padding: 15px;
+}
