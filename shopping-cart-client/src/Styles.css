@@ -21,8 +21,14 @@ body {
   padding-left: 0;
 }
 
-#productsFormPanel,
+#productsAddFormPanel,
+#productsDeleteFormPanel,
 #cartPanel {
   margin: 15px;
   padding: 15px;
+}
+h5,
+#checkoutBtn,
+#productDeleteBtn {
+  margin: 15px;
 }

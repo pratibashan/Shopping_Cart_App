@@ -2,8 +2,28 @@ import React, { Component } from "react";
 import { Row, Col, Well, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import * as actionCreators from "../store/actionCreators";
+import Cart from "./Cart";
 
 class ProductItem extends Component {
+  //update quantity in the cart
+  handleCart(product) {
+    console.log("Fired");
+    if (this.props.cartItemsList.length > 0) {
+      let cartIndex = this.props.cartItemsList.findIndex(item => {
+        return item._id === product._id;
+        console.log("cartIndex");
+        console.log(cartIndex);
+      });
+      //if there is no match found
+      if (cartIndex === -1) {
+        this.props.onAddtoCartBtnClick(product);
+      } else {
+        this.props.incrementQuantity(product);
+      }
+    } else {
+      this.props.onAddtoCartBtnClick(product);
+    }
+  }
   render() {
     return (
       <Well>
@@ -15,7 +35,7 @@ class ProductItem extends Component {
             <h6>{this.props.product.price}</h6>
             <Button
               bsStyle="primary"
-              onClick={() => this.props.onAddtoCartBtnClick(this.props.product)}
+              onClick={() => this.handleCart(this.props.product)}
             >
               Add to cart
             </Button>
@@ -28,13 +48,15 @@ class ProductItem extends Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.productReducer.products
+    products: state.productReducer.products,
+    cartItemsList: state.cartReducer.cartItems
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    // onPopulateProducts: () => dispatch(actionCreators.populateProducts())
+    incrementQuantity: product =>
+      dispatch(actionCreators.incrementQuantity(product)),
     onAddtoCartBtnClick: product => dispatch(actionCreators.addToCart(product))
   };
 };

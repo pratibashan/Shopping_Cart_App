@@ -11,7 +11,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         products: action.products
       };
+
+    case actionTypes.DELETE_PRODUCT:
+      return {
+        ...state,
+        products: state.products.filter(product => {
+          return product.title != action.productTitle;
+        })
+      };
   }
   return state;
 };
+
 export default reducer;

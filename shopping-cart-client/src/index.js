@@ -32,10 +32,10 @@ ReactDOM.render(
     <Provider store={store}>
       <BaseLayout>
         <Switch>
-          {/* <Route exact path="/" component={ProductsList} /> */}
+          <Route exact path="/" component={ProductsList} />
           <Route path="/cart" component={Cart} />
 
-          <Route path="/admin" component={ProductsList} />
+          <Route path="/admin" component={ProductsForm} />
           {/* <Route path="/admin/addproduct" component={AddProduct} /> */}
         </Switch>
       </BaseLayout>

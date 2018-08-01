@@ -23,12 +23,41 @@ export const addToCart = product => {
   };
 };
 
+export const deleteProduct = productTitle => {
+  console.log(productTitle);
+  return dispatch => {
+    dispatch({
+      type: actionTypes.DELETE_PRODUCT,
+      productTitle: productTitle
+    });
+  };
+};
+
+export const incrementQuantity = cartItem => {
+  return dispatch => {
+    dispatch({
+      type: actionTypes.INCREMENT_QUANTITY,
+      cartItem: cartItem
+    });
+    //console.log(cartItem);
+  };
+};
+
+export const decrementQuantity = cartItem => {
+  return dispatch => {
+    dispatch({
+      type: actionTypes.DECREMENT_QUANTITY,
+      cartItem: cartItem
+    });
+    //console.log(cartItem);
+  };
+};
 export const deleteCartItem = cartItem => {
   return dispatch => {
     dispatch({
       type: actionTypes.DELETE_CART_ITEM,
       cartItem: cartItem
     });
-    console.log(cartItem);
+    //console.log(cartItem);
   };
 };

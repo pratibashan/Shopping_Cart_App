@@ -8,7 +8,6 @@ import Cart from "./Cart";
 
 class ProductsList extends Component {
   componentDidMount() {
-    console.log("componentDidMount");
     this.props.onPopulateProducts();
   }
 
@@ -17,7 +16,6 @@ class ProductsList extends Component {
   };
 
   render() {
-    console.log(this.props.products);
     let productsList = this.props.products.map(product => {
       return (
         <Col xs={12} sm={6} md={4} key={product._id}>
@@ -32,9 +30,9 @@ class ProductsList extends Component {
           <Cart />
         </Row>
         <Row>
-          <Col xs={12} sm={6}>
+          {/* <Col xs={12} sm={6}>
             <ProductsForm productAddedHandler={this.productAddedHandler} />
-          </Col>
+          </Col> */}
           {productsList}
         </Row>
       </Grid>
