@@ -34,6 +34,7 @@ class Cart extends Component {
     console.log("In Cart Component");
     //console.log(this.props.cartItemsList);
     console.log(this.props.total);
+    console.log(this.props.cartItemsList[0]);
     if (this.props.cartItemsList[0]) {
       return this.renderCart();
     } else {
@@ -102,30 +103,33 @@ class Cart extends Component {
     });
 
     return (
-      <Panel bsStyle="primary">
-        <Panel.Heading>Cart</Panel.Heading>
-        {cartItemsList}
-        <Row>
-          <Col xs={12}>
-            <h5>
-              Total Amount:<span> </span>
-              <b>${this.props.total}</b>
-            </h5>
-            <Button
-              id="checkoutBtn"
-              bsStyle="success"
-              onClick={() => this.handleShow()}
-            >
-              Proceed to Checkout
-            </Button>
-          </Col>
-        </Row>
-      </Panel>
+      <Grid>
+        <Panel bsStyle="primary">
+          <Panel.Heading>Cart</Panel.Heading>
+          {cartItemsList}
+          <Row>
+            <Col xs={12}>
+              <h5>
+                Total Amount:<span> </span>
+                <b>${this.props.total}</b>
+              </h5>
+              <Button
+                id="checkoutBtn"
+                bsStyle="success"
+                onClick={() => this.handleShow()}
+              >
+                Proceed to Checkout
+              </Button>
+            </Col>
+          </Row>
+        </Panel>
+      </Grid>
     );
   }
 }
 
 const mapStateToProps = state => {
+  console.log(state.cartReducer);
   return {
     cartItemsList: state.cartReducer.cartItems,
     total: state.cartReducer.total

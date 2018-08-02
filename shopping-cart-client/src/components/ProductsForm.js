@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../store/actionCreators";
 import {
+  Grid,
+  Row,
+  Col,
   Well,
   Panel,
   Form,
@@ -21,8 +24,22 @@ class ProductsForm extends Component {
       imageURL: "imageURL",
       description: "description",
       price: "price",
-      optionValue: ""
+      optionValue: "",
+      products: []
     };
+  }
+  componentDidMount() {
+    this.populateProducts();
+  }
+
+  populateProducts() {
+    fetch("http://localhost:5000/api/products")
+      .then(response => response.json())
+      .then(json => {
+        this.setState({
+          products: json.products
+        });
+      });
   }
 
   handleTextChange = e => {
@@ -37,104 +54,106 @@ class ProductsForm extends Component {
     this.setState({ optionValue: e.target.value });
   };
 
-  handleAddProductClick = e => {
-    e.preventDefault();
-
+  handleSaveProduct = () => {
     let product = {
       title: this.state.title,
       imageURL: this.state.imageURL,
       description: this.state.description,
       price: this.state.price
     };
-    console.log(product);
-    fetch("http://localhost:5000/api/products/addproduct", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(product)
-    })
-      .then(response => response.json())
-      .then(json => {
-        this.props.productAddedHandler();
-
-        console.log(json);
-      });
+    this.props.saveProductBtnClick(product);
   };
 
   render() {
-    let productsList = this.props.products.map(product => {
+    let productsList = this.state.products.map(product => {
       return <option key={product._id}>{product.title}</option>;
     });
     return (
-      <Well>
-        <Panel id="productsAddFormPanel">
-          <Form onSubmit={this.handleAddProductClick}>
-            <FormGroup controlId="title">
-              <ControlLabel>Title</ControlLabel>
-              <FormControl
-                type="text"
-                onChange={this.handleTextChange}
-                name="title"
-                placeholder="Product Title"
-              />
-            </FormGroup>
-            <FormGroup controlId="imageURL">
-              <ControlLabel>ImageURL</ControlLabel>
-              <FormControl
-                type="text"
-                onChange={this.handleTextChange}
-                name="imageURL"
-                placeholder="ImageURL"
-              />
-            </FormGroup>
-            <FormGroup controlId="description">
-              <ControlLabel>Description</ControlLabel>
-              <FormControl
-                type="text"
-                onChange={this.handleTextChange}
-                name="description"
-                placeholder="Product Description"
-              />
-            </FormGroup>
-            <FormGroup controlId="price">
-              <ControlLabel>Price</ControlLabel>
-              <FormControl
-                type="text"
-                onChange={this.handleTextChange}
-                name="price"
-                placeholder="Product Price"
-              />
-            </FormGroup>
-            <Button bsStyle="primary" type="submit">
-              Add Product
-            </Button>
-          </Form>
-        </Panel>
-        <Panel style={{ marginTop: "25px" }} id="productsDeleteFormPanel">
-          <FormGroup controlId="formControlsSelect">
-            <ControlLabel>Select a product id to delete</ControlLabel>
-            <FormControl
-              value={this.state.optionValue}
-              onChange={this.handleOptionChange}
-              componentClass="select"
-              placeholder="select"
-            >
-              <option value="select">select</option>
-              {productsList}
-            </FormControl>
-          </FormGroup>
-          <Button
-            id="productDeleteBtn"
-            bsStyle="danger"
-            onClick={() =>
-              this.props.deleteProductBtnClick(this.state.optionValue)
-            }
-          >
-            Delete Product
-          </Button>
-        </Panel>
-      </Well>
+      <Grid>
+        <Row className="show-grid">
+          <Col md={6}>
+            {/* add product form */}
+            <Well>
+              <Panel id="productsAddFormPanel">
+                <Form>
+                  <FormGroup controlId="title" id="productsAddForm">
+                    <ControlLabel>Title</ControlLabel>
+                    <FormControl
+                      type="text"
+                      onChange={this.handleTextChange}
+                      name="title"
+                      placeholder="Product Title"
+                    />
+                  </FormGroup>
+                  <FormGroup controlId="imageURL">
+                    <ControlLabel>ImageURL</ControlLabel>
+                    <FormControl
+                      type="text"
+                      onChange={this.handleTextChange}
+                      name="imageURL"
+                      placeholder="ImageURL"
+                    />
+                  </FormGroup>
+                  <FormGroup controlId="description">
+                    <ControlLabel>Description</ControlLabel>
+                    <FormControl
+                      type="text"
+                      onChange={this.handleTextChange}
+                      name="description"
+                      placeholder="Product Description"
+                    />
+                  </FormGroup>
+                  <FormGroup controlId="price">
+                    <ControlLabel>Price</ControlLabel>
+                    <FormControl
+                      type="text"
+                      onChange={this.handleTextChange}
+                      name="price"
+                      placeholder="Product Price"
+                    />
+                  </FormGroup>
+                  <Button
+                    bsStyle="primary"
+                    type="submit"
+                    onClick={() => this.handleSaveProduct()}
+                  >
+                    save Product
+                  </Button>
+                </Form>
+              </Panel>
+            </Well>
+          </Col>
+          <Col md={6}>
+            <Well>
+              {/* delete product form */}
+              <Panel style={{ marginTop: "25px" }} id="productsDeleteFormPanel">
+                <FormGroup controlId="formControlsSelect">
+                  <ControlLabel>Select a product to delete</ControlLabel>
+                  <FormControl
+                    value={this.state.optionValue}
+                    onChange={this.handleOptionChange}
+                    componentClass="select"
+                    placeholder="select"
+                  >
+                    <option value="select">select</option>
+                    {productsList}
+                  </FormControl>
+                </FormGroup>
+                <div />
+                <Button
+                  id="productDeleteBtn"
+                  bsStyle="danger"
+                  onClick={() =>
+                    this.props.deleteProductBtnClick(this.state.optionValue)
+                  }
+                >
+                  Delete Product
+                </Button>
+              </Panel>
+            </Well>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }
@@ -147,6 +166,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    onPopulateProducts: () => dispatch(actionCreators.populateProducts()),
+    saveProductBtnClick: product =>
+      dispatch(actionCreators.saveProduct(product)),
     deleteProductBtnClick: productTitle =>
       dispatch(actionCreators.deleteProduct(productTitle))
   };

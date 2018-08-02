@@ -10,7 +10,6 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import BaseLayout from "./components/BaseLayout";
 import ProductsList from "./components/ProductsList";
 import Cart from "./components/Cart";
-// import Admin from "./components/Admin";
 import ProductsForm from "./components/ProductsForm";
 import product from "./store/reducers/product";
 import cart from "./store/reducers/cart";
@@ -33,10 +32,8 @@ ReactDOM.render(
       <BaseLayout>
         <Switch>
           <Route exact path="/" component={ProductsList} />
-          <Route path="/cart" component={Cart} />
-
           <Route path="/admin" component={ProductsForm} />
-          {/* <Route path="/admin/addproduct" component={AddProduct} /> */}
+          <Route path="/cart" component={Cart} />
         </Switch>
       </BaseLayout>
     </Provider>

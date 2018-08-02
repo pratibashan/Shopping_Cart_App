@@ -60,15 +60,16 @@ const reducer = (state = initialState, action) => {
 
   const calculateTotal = cartItems => {
     let sum = 0;
-    let totalAmountArr = state.cartItems.map(item => {
-      return item.price * item.quantity;
-    });
-    for (let i = 0; i < totalAmountArr.length; i++) {
-      sum += totalAmountArr[i];
-      return sum;
+    if (state.cartItems.length > 0) {
+      let totalAmountArr = state.cartItems
+        .map(item => {
+          return item.price * item.quantity;
+        })
+        .reduce((a, b) => {
+          return a + b;
+        }, 0);
     }
   };
-
   state = {
     ...state,
     total: calculateTotal(state.cartItems)
@@ -79,11 +80,12 @@ const reducer = (state = initialState, action) => {
 
 export default reducer;
 
-// calculate the total
+//calculate the total
 // let sum = 0;
-// let totalAmountArr = state.cartItems.map(item => {
-//   return item.price * item.quantity;
-// });
+//   let totalAmountArr = state.cartItems.map(item => {
+//     return item.price * item.quantity;
+//   });
+
 // for (let i = 0; i < totalAmountArr.length; i++) {
 //   sum += totalAmountArr[i];
 // }

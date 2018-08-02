@@ -11,9 +11,9 @@ class ProductsList extends Component {
     this.props.onPopulateProducts();
   }
 
-  productAddedHandler = () => {
-    this.props.onPopulateProducts();
-  };
+  // productAddedHandler = () => {
+  //   this.props.onPopulateProducts();
+  // };
 
   render() {
     let productsList = this.props.products.map(product => {

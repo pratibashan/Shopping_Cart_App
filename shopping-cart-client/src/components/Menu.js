@@ -10,7 +10,7 @@ class Menu extends Component {
       <Navbar inverse fixedTop>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="/">React-Bootstrap</a>
+            <a href="/">Products</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -29,7 +29,7 @@ class Menu extends Component {
             </NavItem>
             <NavItem eventKey={2} href="/cart">
               Your Cart
-              {/* <Badge className="badge">1</Badge> */}
+              <Badge className="badge">{this.props.cartItems.length}</Badge>
             </NavItem>
           </Nav>
         </Navbar.Collapse>
